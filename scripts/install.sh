@@ -154,12 +154,8 @@ dotfiles_download() {
             echo.ok
         else
             echo.failed
-            check_ssh_settings
             echo.end_warn 'Aborting dotfiles download:('
-            echo.next_step
-            echo 'Please create an SSH key pair, register the public key with GitHub,'
-            echo 'and then re-run this script.'
-            exit
+            termination_with_check_ssh
         fi
 
         if ! git clone --recursive -b "$DOTFILES_BRANCH" "$DOTFILES_SSH_URL" "$DOTFILES_PATH"
@@ -208,22 +204,6 @@ dotfiles_download() {
     subsection_download_with() {
         printf "$(echo.sgr bold "$_echo_accent")==>$(echo.sgr bold default) Downloading with $(echo.sgr bold "$_echo_accent")%s$(echo.sgr)...\n" "$DOWNLOADER"
     }
-    check_ssh_settings() {
-        local -r ssh_dir="${HOME}/.ssh"
-        echo.subsection 'Checking SSH settings...'
-        if [[ -e $ssh_dir ]]; then
-            echo "'$ssh_dir' already exists."
-            if [[ -z $(find "$ssh_dir" -maxdepth 0 -perm 700 -type d) ]]; then
-                chmod 700 "$ssh_dir"
-                echo "Change '$ssh_dir' permission to 700."
-            else
-                echo "'$ssh_dir' permission OK."
-            fi
-        else
-            mkdir -m 700 "$ssh_dir"
-            echo "Created directory '$ssh_dir'."
-        fi
-    }
     check_downloader() {
         echo.section 'Checking downloader...'
         if cmd_exists_check 'git'; then
@@ -258,6 +238,27 @@ dotfiles_download() {
            ;;
     esac
     dotfiles_download_complete
+}
+
+termination_with_check_ssh() {
+    local -r ssh_dir="${HOME}/.ssh"
+    echo.section 'Checking SSH settings...'
+    if [[ -e $ssh_dir ]]; then
+        echo "'$ssh_dir' already exists."
+        if [[ -z $(find "$ssh_dir" -maxdepth 0 -perm 700 -type d) ]]; then
+            chmod 700 "$ssh_dir"
+            echo "Change '$ssh_dir' permission to 700."
+        else
+            echo "'$ssh_dir' permission OK."
+        fi
+    else
+        mkdir -m 700 "$ssh_dir"
+        echo "Created directory '$ssh_dir'."
+    fi
+    echo.next_step
+    echo 'Please create an SSH key pair, register the public key with GitHub,'
+    echo 'and then re-run this script.'
+    exit 1
 }
 
 dotfiles_initialize() {
