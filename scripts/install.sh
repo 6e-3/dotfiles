@@ -147,7 +147,7 @@ dotfiles_download() {
         return
     }
     dotfiles_download_git() {
-        echo.section "Downloading with ${DOWNLOADER}..."
+        echo.section "Downloading with ${DOTFILES_DOWNLOADER}..."
 
         echo -n 'Testing SSH connection to git@github.com...'
         if grep -q "$GITHUB_USERNAME"\
@@ -169,7 +169,7 @@ dotfiles_download() {
     dotfiles_download_curl_or_wget() {
         local result
 
-        echo.section "Downloading with ${DOWNLOADER}..."
+        echo.section "Downloading with ${DOTFILES_DOWNLOADER}..."
 
         if ! cmd_exists_check 'tar'; then
             echo.error "$(loginfo) command is required: tar"
@@ -198,27 +198,31 @@ dotfiles_download() {
             fi
         fi
 
-        case "$DOWNLOADER" in
+        case "$DOTFILES_DOWNLOADER" in
             curl) curl -L "$DOTFILES_TARBALL_URL" ;;
             wget) wget -O - "$DOTFILES_TARBALL_URL" ;;
         esac | tar xvz -C "$DOTFILES_PATH" --strip-components=1 || dotfiles_download_failed
     }
     subsection_download_with() {
-        printf "$(echo.sgr bold "$_echo_accent")==>$(echo.sgr bold default) Downloading with $(echo.sgr bold "$_echo_accent")%s$(echo.sgr)...\n" "$DOWNLOADER"
+        printf "$(echo.sgr bold "$_echo_accent")==>$(echo.sgr bold default) Downloading with $(echo.sgr bold "$_echo_accent")%s$(echo.sgr)...\n" "$DOTFILES_DOWNLOADER"
     }
     check_downloader() {
         echo.section 'Checking downloader...'
-        if cmd_exists_check 'git'; then
-            DOWNLOADER='git'
-        elif cmd_exists_check 'curl'; then
-            DOWNLOADER='curl'
-        elif cmd_exists_check 'wget'; then
-            DOWNLOADER='wget'
+        if [[ -z ${DOTFILES_DOWNLOADER:-} ]]; then
+            if cmd_exists_check 'git'; then
+                DOTFILES_DOWNLOADER='git'
+            elif cmd_exists_check 'curl'; then
+                DOTFILES_DOWNLOADER='curl'
+            elif cmd_exists_check 'wget'; then
+                DOTFILES_DOWNLOADER='wget'
+            else
+                echo.error "$(loginfo) downloader not found: git, curl, wget"
+                return 1
+            fi
+            printf "Automatically detected downloader: $(echo.sgr bold "$_echo_accent")%s$(echo.sgr)\n" "$DOTFILES_DOWNLOADER"
         else
-            echo.error "$(loginfo) downloader not found: git, curl, wget"
-            return 1
+            printf "Specified downloader: $(echo.sgr bold "$_echo_accent")%s$(echo.sgr)\n" "$DOTFILES_DOWNLOADER"
         fi
-        printf "Downloader detected: $(echo.sgr bold "$_echo_accent")%s$(echo.sgr)\n" "$DOWNLOADER"
     }
 
     echo.title 'Starting dotfiles download'
@@ -229,13 +233,13 @@ dotfiles_download() {
     fi
 
     check_downloader
-    case "$DOWNLOADER" in
+    case "$DOTFILES_DOWNLOADER" in
         git)
            dotfiles_download_git ;;
         curl|wget)
            dotfiles_download_curl_or_wget ;;
         *)
-           echo.error "$(loginfo) unknown downloader: $DOWNLOADER"
+           echo.error "$(loginfo) unknown downloader: $DOTFILES_DOWNLOADER"
            dotfiles_download_failed
            ;;
     esac
@@ -259,7 +263,11 @@ termination_with_check_ssh() {
     fi
     echo.next_step
     echo 'Please create an SSH key pair, register the public key with GitHub,'
-    echo 'and then re-run this script.'
+    echo 'and then re-run this script. Or set the DOTFILES_DOWNLOADER environment variable.'
+    echo
+    echo 'Specifiable commands:'
+    echo '  - curl'
+    echo '  - wget'
     exit 1
 }
 
@@ -308,7 +316,6 @@ dotfiles_install() {
 
 
 # main
-DOWNLOADER=
 GITHUB_USERNAME='6e-3'
 [[ -z ${DOTFILES_BRANCH:-} ]] && DOTFILES_BRANCH='trunk'
 DOTFILES_PATH="${HOME:?}/.dotfiles"
