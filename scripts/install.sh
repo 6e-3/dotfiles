@@ -301,7 +301,8 @@ dotfiles_install() {
 # main
 DOWNLOADER=
 GITHUB_USERNAME='6e-3'
-DOTFILES_BRANCH='trunk'
+DEFAULT_DOTFILES_BRANCH='trunk'
+[[ -z ${DOTFILES_BRANCH:-} ]] && DOTFILES_BRANCH="$DEFAULT_DOTFILES_BRANCH"
 DOTFILES_PATH="${HOME:?}/.dotfiles"
 DOTFILES_SSH_URL="git@github.com:${GITHUB_USERNAME}/dotfiles.git"
 DOTFILES_TARBALL_URL="https://github.com/${GITHUB_USERNAME}/dotfiles/archive/${DOTFILES_BRANCH}.tar.gz"
