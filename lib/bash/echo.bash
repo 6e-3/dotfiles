@@ -75,7 +75,7 @@ echo.sgr() {
         return 0
     fi
 
-    local code_color=
+    local code_color
     local code_attr_arr=()
     while (($# > 0)); do
         case $1 in
@@ -109,7 +109,7 @@ echo.sgr() {
 
     local -r code_attr_arr_len="${#code_attr_arr[@]}"
     if [[ $code_attr_arr_len -eq 0 ]]; then
-        if [[ -z $code_color ]]; then
+        if [[ -z ${code_color:-} ]]; then
             echo "${FUNCNAME[0]}: option couldn't be detected" >&2
             return 1
         else
@@ -120,7 +120,7 @@ echo.sgr() {
             for attr in "${code_attr_arr[@]}"; do
                 echo -n "${attr};"
             done)
-        if [[ -z $code_color ]]; then
+        if [[ -z ${code_color:-} ]]; then
             printf '%s' "$(echo.escape "${code_attr%;}")"
         else
             printf '%s' "$(echo.escape "${code_attr}${code_color}")"
