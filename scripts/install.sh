@@ -242,7 +242,7 @@ dotfiles_download() {
 
 termination_with_check_ssh() {
     local -r ssh_dir="${HOME}/.ssh"
-    echo.section 'Checking SSH settings...'
+    echo.title 'Checking SSH settings...'
     if [[ -e $ssh_dir ]]; then
         echo "'$ssh_dir' already exists."
         if [[ -z $(find "$ssh_dir" -maxdepth 0 -perm 700 -type d) ]]; then
