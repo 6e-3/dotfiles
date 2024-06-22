@@ -75,7 +75,8 @@ hello() {
 
     local msg=('Hello:)'
                'This is the dotfiles installation script.'
-               "Date: $(LANG=C date)")
+               "Date: $(LANG=C date)"
+               "Download Branch: $DOTFILES_BRANCH")
     local errors=()
     local logo='
     _____  _______ _______ _______ _______ _____   _______ _______ 
