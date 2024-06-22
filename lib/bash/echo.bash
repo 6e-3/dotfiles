@@ -218,7 +218,7 @@ echo.bar() {
     local symbol='.'
     local count=67
     for i in $(seq "$count"); do
-        sleep 0.005
+        sleep 0.002
         bar=$(yes "$symbol" | head -n "$i" | tr -d '\n') || true
         printf "\r$(echo.sgr bold "$_echo_base")%s$(echo.sgr)" "$bar"
     done

@@ -129,10 +129,12 @@ hello() {
         done
         exit 1
     else
+        echo.bar
         printf "$(echo.sgr bold "$_echo_base")%s$(echo.sgr)\n\n" "$logo" && sleep 0.5
         for msg in "${msg[@]}"; do
             echo.msg "> $msg"
         done
+        echo
         echo.bar
         echo
     fi
