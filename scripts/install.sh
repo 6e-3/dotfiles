@@ -119,6 +119,11 @@ hello() {
 
     if [[ -n ${errors:=} ]]; then
         printf "\033[1;31m%s\033[m\n\n" "$logo" && sleep 0.5
+        for msg in "${msg[@]}"; do
+            printf "\033[1;31m> %s\033[m\n" "$msg"
+            sleep 0.2
+        done
+        echo
         for msg in "${errors[@]}"; do
             printf "\033[31mERROR\033[m: %s\n" "$msg"
         done
