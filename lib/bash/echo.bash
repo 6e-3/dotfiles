@@ -75,7 +75,7 @@ echo.sgr() {
         return 0
     fi
 
-    local code_color
+    local code_color=
     local code_attr_arr=()
     while (($# > 0)); do
         case $1 in
