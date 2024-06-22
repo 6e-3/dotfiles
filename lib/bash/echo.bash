@@ -107,7 +107,6 @@ echo.sgr() {
         shift
     done
 
-    local code
     local -r code_attr_arr_len="${#code_attr_arr[@]}"
     if [[ $code_attr_arr_len -eq 0 ]]; then
         if [[ -z $code_color ]]; then
@@ -189,27 +188,27 @@ echo.title() {
 }
 echo.section() {
     local symbol='>>>'
-    printf "$(echo.sgr bold "$_echo_base")$symbol $(echo.sgr default)%s$(echo.sgr)\n" "$*"
+    printf "$(echo.sgr bold "$_echo_base")%s $(echo.sgr default)%s$(echo.sgr)\n" "$symbol" "$*"
     sleep "$_echo_sleep"
 }
 echo.subsection() {
     local symbol='==>'
-    printf "$(echo.sgr bold "$_echo_purple")$symbol $(echo.sgr default)%s$(echo.sgr)\n" "$*"
+    printf "$(echo.sgr bold "$_echo_purple")%s $(echo.sgr default)%s$(echo.sgr)\n" "$symbol" "$*"
     sleep 0.1
 }
 echo.next_step() {
     local symbol='>>>'
-    printf "$(echo.sgr bold "$_echo_base")$symbol $(echo.sgr default)Next Steps...$(echo.sgr)\n"
+    printf "$(echo.sgr bold "$_echo_base")%s $(echo.sgr default)Next Steps...$(echo.sgr)\n" "$symbol"
     sleep "$_echo_sleep"
 }
 
 
 # processing result formats
-echo.ok()       { printf "$(echo.sgr bold "$_echo_pink")OK$(echo.sgr)\n" "$*"; }
-echo.failed()   { printf "$(echo.sgr bold "$_echo_red")FAILED$(echo.sgr)\n" "$*"; }
-echo.notfound() { printf "$(echo.sgr bold "$_echo_red")NOT FOUND$(echo.sgr)\n" "$*"; }
-echo.skip()     { printf "$(echo.sgr bold "$_echo_yellow")SKIP$(echo.sgr)\n" "$*"; }
-echo.exist()    { printf "$(echo.sgr bold "$_echo_blue")EXIST$(echo.sgr)\n" "$*"; }
+echo.ok()       { printf "$(echo.sgr bold "$_echo_pink")OK$(echo.sgr)\n"; }
+echo.failed()   { printf "$(echo.sgr bold "$_echo_red")FAILED$(echo.sgr)\n"; }
+echo.notfound() { printf "$(echo.sgr bold "$_echo_red")NOT FOUND$(echo.sgr)\n"; }
+echo.skip()     { printf "$(echo.sgr bold "$_echo_yellow")SKIP$(echo.sgr)\n"; }
+echo.exist()    { printf "$(echo.sgr bold "$_echo_blue")EXIST$(echo.sgr)\n"; }
 
 
 # others
