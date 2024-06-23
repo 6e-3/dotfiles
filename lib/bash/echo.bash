@@ -154,7 +154,7 @@ echo.attention() {
     printf "$(echo.sgr bold "$_echo_yellow")$symbol $(echo.sgr default)%s$(echo.sgr)\n" "$*"
     sleep "$_echo_sleep"
 }
-echo.end_ok() { printf "$(echo.sgr bold "$_echo_pink")%s$(echo.sgr)\n\n" "$@"; }
+echo.end_ok() { printf "✨$(echo.sgr bold "$_echo_pink")%s$(echo.sgr)\n\n" "$@"; }
 echo.end_warn() { printf "$(echo.sgr bold "$_echo_yellow")%s$(echo.sgr)\n\n" "$@"; }
 echo.subend_warn() {
     local symbol='==>'
@@ -181,7 +181,7 @@ echo.title() {
     for i in $(seq "$count"); do
         sleep 0.3
         loading_symbol=$(yes '.' | head -n "$i" | tr -d '\n') || true
-        printf "\r$(echo.sgr bold "$_echo_yellow")> $(echo.sgr default)%s$(echo.sgr)$loading_symbol" "$*"
+        printf "\r$(echo.sgr bold "$_echo_base")> $(echo.sgr default)%s$(echo.sgr)$loading_symbol" "$*"
     done
     sleep "$_echo_sleep"
     echo
