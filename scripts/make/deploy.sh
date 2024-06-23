@@ -115,7 +115,7 @@ create_symlinks() {
 
 deploy() {
     local pkg_dirs
-    pkg_dirs=$(find "${CONFIG_DIR:?}" -depth 1 -type d 2>/dev/null)
+    pkg_dirs=$(find "${CONFIG_DIR:?}" -mindepth 1 -maxdepth 1 -type d 2>/dev/null)
 
     echo.section 'Deploying the configs...'
 
