@@ -2,7 +2,7 @@
 
 ## Installation
 
-### One-Liner
+### ▼ One-Liner
 
 ``` shell
 curl -fsSL https://raw.githubusercontent.com/6e-3/dotfiles/trunk/scripts/install.sh | bash
@@ -18,7 +18,7 @@ curl -fsSL https://raw.githubusercontent.com/6e-3/dotfiles/trunk/scripts/install
 
 You can customize the installation by setting environment variables.
 
-### Environment variables
+### ▼ Environment variables
 
 - **DOTFILES_BRANCH**
   - Specity the branch for download.
