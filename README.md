@@ -14,15 +14,14 @@ With initialization:
 curl -fsSL https://raw.githubusercontent.com/6e-3/dotfiles/trunk/scripts/install.sh | bash -s init
 ```
 
-### Installation Options
+## Installation Options
 
 You can customize the installation by setting environment variables.
 
-**Environment variables**
+### Environment variables
 
 - **DOTFILES_BRANCH**
   - Specity the branch for download.
-
 - **DOTFILES_DOWNLOADER**
   - Specify the downloader to use the for downloading this repository.
   - Available commands:
