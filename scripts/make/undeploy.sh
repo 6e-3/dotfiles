@@ -58,8 +58,8 @@ remove_configs() {
 
     local src_config_files
     local src_config_dirs
-    src_config_files=$(find "$pkg_dir" -type f 2>/dev/null)
-    src_config_dirs=$(find "$pkg_dir" -mindepth 1 -type d 2>/dev/null)
+    src_config_files=$(find "$pkg_dir" -type f)
+    src_config_dirs=$(find "$pkg_dir" -mindepth 1 -type d)
 
     if [[ -z "$src_config_files" ]]; then
         echo.error "$(loginfo) config files not found: $pkg_dir"
@@ -132,7 +132,7 @@ remove_configs() {
             echo.warn "$(loginfo) the rm_target_dir is regular file: $rm_target_dir"
         else
             if [[ -d $rm_target_dir ]]; then
-                result=$(find "$rm_target_dir" -mindepth 1 2>/dev/null)
+                result=$(find "$rm_target_dir" -mindepth 1)
                 if [[ -n $result ]]; then
                     echo.skip
                     echo.warn "$(loginfo) the directory is not empty: $rm_target_dir"
@@ -154,7 +154,7 @@ remove_configs() {
 
 undeploy() {
     local pkg_dirs
-    pkg_dirs=$(find "${CONFIG_DIR:?}" -mindepth 1 -maxdepth 1 -type d 2>/dev/null)
+    pkg_dirs=$(find "${CONFIG_DIR:?}" -mindepth 1 -maxdepth 1 -type d)
 
     echo.section 'Undeploying the configs...'
 

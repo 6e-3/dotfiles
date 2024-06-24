@@ -51,7 +51,7 @@ create_symlinks() {
     echo.subsection "$pkg"
 
     local src_configs
-    src_configs=$(find "$pkg_dir" -mindepth 1 2>/dev/null)
+    src_configs=$(find "$pkg_dir" -mindepth 1)
 
     if [[ -z "$src_configs" ]]; then
         echo.error "$(loginfo) config files not found: $pkg_dir"
@@ -115,7 +115,7 @@ create_symlinks() {
 
 deploy() {
     local pkg_dirs
-    pkg_dirs=$(find "${CONFIG_DIR:?}" -mindepth 1 -maxdepth 1 -type d 2>/dev/null)
+    pkg_dirs=$(find "${CONFIG_DIR:?}" -mindepth 1 -maxdepth 1 -type d)
 
     echo.section 'Deploying the configs...'
 
