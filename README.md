@@ -5,13 +5,13 @@
 ### ▼ One-Liner
 
 ``` shell
-curl -fsSL https://raw.githubusercontent.com/6e-3/dotfiles/trunk/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/6e-3/dotfiles/trunk/install.sh | bash
 ```
 
 With initialization:
 
 ``` shell
-curl -fsSL https://raw.githubusercontent.com/6e-3/dotfiles/trunk/scripts/install.sh | bash -s init
+curl -fsSL https://raw.githubusercontent.com/6e-3/dotfiles/trunk/install.sh | bash -s init
 ```
 
 ## Installation Options
