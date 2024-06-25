@@ -268,6 +268,7 @@ termination_with_check_ssh() {
     echo 'Specifiable commands:'
     echo '  - curl'
     echo '  - wget'
+    echo
     exit 1
 }
 
