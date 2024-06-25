@@ -213,9 +213,13 @@ echo.exist()    { printf "$(echo.sgr bold "$_echo_blue")EXIST$(echo.sgr)\n"; }
 
 # others
 echo.bar() {
+    if [[ $# -ne 1 || ! $1 =~ ^[1-9][0-9]*$ ]]; then
+        echo "${FUNCNAME[0]}: invalid option" 2>&1
+        return 1
+    fi
+    local count="$1"
     local bar
     local symbol='.'
-    local count=67
     for i in $(seq "$count"); do
         sleep 0.002
         bar=$(yes "$symbol" | head -n "$i" | tr -d '\n') || true

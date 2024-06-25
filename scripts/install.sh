@@ -129,13 +129,14 @@ hello() {
         done
         exit 1
     else
-        echo.bar
+        local bar_length=67
+        echo.bar "$bar_length"
         printf "$(echo.sgr bold "$_echo_base")%s$(echo.sgr)\n\n" "$logo" && sleep 0.5
         for msg in "${msg[@]}"; do
             echo.msg "> $msg"
         done
         echo
-        echo.bar
+        echo.bar "$bar_length"
         echo
     fi
 }
