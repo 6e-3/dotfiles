@@ -10,11 +10,18 @@ GIT_HOOKS_DIR := $(DOTFILES_ROOT)/misc/git/hooks
 .DEFAULT_GOAL := help
 
 .PHONY: help
+.PHONY: install uninstall
 .PHONY: init deploy undeploy
 .PHONY: git-config git-hooks
 
 help: ## Show this help message [default]
 	@$(SCRIPT_DIR)/help.sh $(MAKEFILE)
+
+install: ## Install dotfiles
+	@$(DOTFILES_ROOT)/install.sh
+
+uninstall: ## Uninstall dotfiles
+	@$(SCRIPT_DIR)/uninstall.sh
 
 init: ## Initialize the environment
 	@$(SCRIPT_DIR)/init.sh
