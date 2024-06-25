@@ -150,12 +150,13 @@ dotfiles_download() {
         echo.section "Downloading with ${DOTFILES_DOWNLOADER}..."
 
         echo -n 'Testing SSH connection to git@github.com...'
-        if grep -q "$GITHUB_USERNAME"\
-            <(ssh -o StrictHostKeyChecking=no -T git@github.com 2>&1)
-        then
+
+        local result=$(ssh -o StrictHostKeyChecking=no -T git@github.com 2>&1) || true
+        if cat "$result" | grep -q "$GITHUB_USERNAME"; then
             echo.ok
         else
             echo.failed
+            echo.error "$(loginfo) $result"
             echo.end_warn 'Aborting dotfiles download:('
             termination_with_check_ssh
         fi
