@@ -37,7 +37,19 @@ hello() {
 self-destruct() {
     echo.section 'Self-destructing...'
 
+    local input
     local result
+    echo "Delete: $DOTFILES_PATH"
+    while true; do
+        read -p 'Are you sure you want to delete this? (y/n) ' input
+        if [[ $input =~ ^[Yy]|[Yy][Ee][Ss]$ ]]; then
+            break
+        elif [[ $input =~ ^[Nn]|[Nn][Oo]$ ]]; then
+            echo.end_warn 'Aborting dotfiles uninstallation:P'
+            exit
+        fi
+    done
+
     echo -n "Removing $DOTFILES_PATH..."
     if result=$(rm -r "$DOTFILES_PATH" 2>&1); then
         echo.ok
