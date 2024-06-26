@@ -97,7 +97,7 @@ remove_configs() {
             fi
         else
             echo.skip
-            echo.warn "$(loginfo) '$rm_target' is not symbolic link"
+            echo.warn "$(loginfo) '$rm_target_file' is not symbolic link"
         fi
     done < <(echo "$src_config_files")
 
@@ -146,7 +146,7 @@ remove_configs() {
                 fi
             else
                 echo.skip
-                echo.warn "$(loginfo) '$rm_target' is not symbolic link"
+                echo.warn "$(loginfo) '$rm_target_dir' is not symbolic link"
             fi
         fi
     done < <(echo "$src_config_dirs")
