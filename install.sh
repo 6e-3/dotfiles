@@ -311,7 +311,7 @@ dotfiles_install() {
     cd "$DOTFILES_PATH"
     check_make
 
-    make deploy
+    make link
     make git-hooks
     cmd_exists_check -q 'git' && make git-setup
     echo.end_ok 'Dotfiles installation complete:D'
