@@ -68,7 +68,7 @@ uninstall() {
     fi
 
     cd "$HOME/.dotfiles"
-    make undeploy
+    make unlink
     self-destruct
     echo.end_ok 'Dotfiles uninstallation complete!'
 }
