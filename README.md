@@ -40,9 +40,9 @@ You can customize the installation by setting environment variables.
 
 ### ▼ Environment Variables
 
-- **DOTFILES_BRANCH**
+- `DOTFILES_BRANCH`
   - Specity the branch for download.
-- **DOTFILES_DOWNLOADER**
+- `DOTFILES_DOWNLOADER`
   - Specify the downloader to use the for downloading this repository.
   - Available commands:
     - git
