@@ -14,11 +14,31 @@ With initialization:
 curl -fsSL https://raw.githubusercontent.com/6e-3/dotfiles/trunk/install.sh | bash -s init
 ```
 
+### ▼ Run Install Script
+
+You can `git clone` this repository to `~/.dotfiles` and run install script.
+
+``` shell
+git clone https://github.com/6e-3/dotfiles.git ~/.dotfiles
+```
+
+- Run the script directly
+  - `~/.dotfiles/install.sh`
+- Using make
+  - `cd ~/.dotfiles && make install`
+
+With initialization:
+
+- Run the script directly
+  - `~/.dotfiles/install.sh init`
+- Using make
+  - `cd ~/.dotfiles && make init && make install`
+
 ## Installation Options
 
 You can customize the installation by setting environment variables.
 
-### ▼ Environment variables
+### ▼ Environment Variables
 
 - **DOTFILES_BRANCH**
   - Specity the branch for download.
@@ -29,3 +49,9 @@ You can customize the installation by setting environment variables.
     - curl
     - wget
   - If not specified, the commands available in the above order are used for download.
+
+## Uninstallation
+
+``` shell
+cd ~/.dotfiles && make uninstall
+```
