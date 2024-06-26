@@ -11,7 +11,7 @@ GIT_HOOKS_DIR := $(DOTFILES_ROOT)/misc/git/hooks
 
 .PHONY: help
 .PHONY: install uninstall
-.PHONY: init deploy undeploy
+.PHONY: init link unlink
 .PHONY: git-config git-hooks
 
 help: ## Show this help message [default]
@@ -26,11 +26,11 @@ uninstall: ## Uninstall dotfiles
 init: ## Initialize the environment
 	@$(SCRIPT_DIR)/init.sh
 
-deploy: ## Create the symbolic links and directories for dotfiles
-	@$(SCRIPT_DIR)/deploy.sh $(CONFIG_DIR)
+link: ## Create the symbolic links and directories for dotfiles
+	@$(SCRIPT_DIR)/link.sh $(CONFIG_DIR)
 
-undeploy: ## Remove the symbolic links and directories for dotfiles
-	@$(SCRIPT_DIR)/undeploy.sh $(CONFIG_DIR)
+unlink: ## Remove the symbolic links and directories for dotfiles
+	@$(SCRIPT_DIR)/unlink.sh $(CONFIG_DIR)
 
 git-setup: ## Setup git configs
 	@$(SCRIPT_DIR)/git_setup.sh --user=$(GIT_USER) --email=$(GIT_EMAIL)
