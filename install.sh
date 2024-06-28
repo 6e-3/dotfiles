@@ -264,12 +264,15 @@ termination_with_check_ssh() {
         echo "Created directory '$ssh_dir'."
     fi
     echo.next_step
-    echo 'Please create an SSH key pair, register the public key with GitHub,'
-    echo 'and then re-run this script. Or set the DOTFILES_DOWNLOADER environment variable.'
+    echo 'Please create an SSH key pair, register the public key with GitHub.'
     echo
-    echo 'Specifiable commands:'
-    echo '  - curl'
-    echo '  - wget'
+    echo '  ssh-keygen -t ed25519'
+    echo
+    echo 'And then re-run this script. Or set the DOTFILES_DOWNLOADER environment variable.'
+    echo
+    echo '  Specifiable commands:'
+    echo '    - curl'
+    echo '    - wget'
     echo
     exit 1
 }
