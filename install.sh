@@ -278,7 +278,7 @@ termination_with_check_ssh() {
 }
 
 dotfiles_initialize() {
-    echo.attention 'The init option has been selected.'
+    echo.attention 'The DOTFILES_INIT option has been selected.'
     printf "Press $(echo.sgr bold)RETURN/ENTER$(echo.sgr) to continue or press any other key to abort.\n"
     IFS='' read -sr -n 1 -p 'Ready?' input </dev/tty && echo
     if [[ -n $input ]]; then
@@ -332,5 +332,7 @@ LIB_ECHO_URL="https://raw.githubusercontent.com/${GITHUB_USERNAME}/dotfiles/${DO
 
 hello
 dotfiles_download
-[[ "${1:-}" = init ]] && dotfiles_initialize
+if [[ -n ${DOTFILES_INIT-} ]]; then
+    dotfiles_initialize
+fi
 dotfiles_install
