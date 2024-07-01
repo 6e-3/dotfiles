@@ -12,7 +12,13 @@ if [ -z "${BASH_VERSION:-}" ]; then
 fi
 
 script=$(basename "$0")
-loginfo() { echo -n "${script}: ${FUNCNAME[1]}:"; }
+loginfo() {
+    if [[ -z ${FUNCNAME[1]:-} ]]; then
+        echo -n "${script}:"
+    else
+        echo -n "${script}: ${FUNCNAME[1]}:"
+    fi
+}
 
 user=$(whoami)
 if [[ $user == root ]]; then
