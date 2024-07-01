@@ -25,6 +25,10 @@ if [[ $user == root ]]; then
     abort "$(loginfo) don't run this as root"
 fi
 
+if [[ ! -t 0 ]]; then
+    abort "$(loginfo) 'stdin' is not a TTY"
+fi
+
 cmd_exists_check() {
     local cmd
     local quiet=false
