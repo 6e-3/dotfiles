@@ -61,7 +61,7 @@ self-destruct() {
     done
 
     echo -n "Removing $DOTFILES_PATH..."
-    if result=$(rm -r "$DOTFILES_PATH" 2>&1); then
+    if result=$(rm -rf "${DOTFILES_PATH:?}" 2>&1); then
         echo.ok
     else
         echo.failed
