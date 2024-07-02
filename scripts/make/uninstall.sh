@@ -6,7 +6,13 @@ source "${HOME:?}/.dotfiles/lib/bash/echo.bash"
 echo.debug() { :; }
 
 script=$(basename "$0")
-loginfo() { echo "${script}: ${FUNCNAME[1]}:"; }
+loginfo() {
+    if [[ -z ${FUNCNAME[1]:-} ]]; then
+        echo -n "${script}:"
+    else
+        echo -n "${script}: ${FUNCNAME[1]}:"
+    fi
+}
 
 if [[ ! -t 0 ]]; then
     echo.abort "$(loginfo) 'stdin' is not a TTY"
