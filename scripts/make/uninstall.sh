@@ -8,6 +8,10 @@ echo.debug() { :; }
 script=$(basename "$0")
 loginfo() { echo "${script}: ${FUNCNAME[1]}:"; }
 
+if [[ ! -t 0 ]]; then
+    echo.abort "$(loginfo) 'stdin' is not a TTY"
+fi
+
 hello() {
     if [[ -z ${DOTFILES_PATH:-} ]]; then
         echo.abort "$(loginfo) DOTFILES_PATH is not set"
