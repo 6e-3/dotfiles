@@ -29,6 +29,7 @@ You can customize the installation by setting environment variables.
 
 - `DOTFILES_BRANCH`
   - Specity the branch for download.
+  - e.g. `DOTFILES_BRANCH=develop`
 - `DOTFILES_DOWNLOADER`
   - Specify the downloader to use the for downloading this repository.
   - Available commands:
@@ -36,6 +37,7 @@ You can customize the installation by setting environment variables.
     - curl
     - wget
   - If not specified, the commands available in the above order are used for download.
+  - e.g. `DOTFILES_DOWNLOADER=curl`
 - `DOTFILES_INIT`
   - Execution the initialization with specified.
   - e.g. `DOTFILES_INIT=1`
