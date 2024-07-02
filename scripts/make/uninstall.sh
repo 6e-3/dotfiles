@@ -49,7 +49,7 @@ self-destruct() {
 
     local input
     local result
-    echo "Delete: $DOTFILES_PATH"
+    echo.subsection "$DOTFILES_PATH"
     while true; do
         read -p 'Are you sure you want to delete this? (y/n) ' input
         if [[ $input =~ ^[Yy]|[Yy][Ee][Ss]$ ]]; then
