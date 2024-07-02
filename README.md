@@ -21,13 +21,6 @@ git clone https://github.com/6e-3/dotfiles.git ~/.dotfiles
 - Using make
   - `cd ~/.dotfiles && make install`
 
-With initialization:
-
-- Run the script directly
-  - `~/.dotfiles/install.sh init`
-- Using make
-  - `cd ~/.dotfiles && make init && make install`
-
 ## Installation Options
 
 You can customize the installation by setting environment variables.
@@ -43,6 +36,9 @@ You can customize the installation by setting environment variables.
     - curl
     - wget
   - If not specified, the commands available in the above order are used for download.
+- `DOTFILES_INIT`
+  - Execution the initialization with specified.
+  - e.g. `DOTFILES_INIT=1`
 
 ## Uninstallation
 
