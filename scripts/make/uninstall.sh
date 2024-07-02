@@ -78,7 +78,7 @@ DOTFILES_PATH="${HOME}/.dotfiles"
 
 hello
 echo.attention "$(echo.sgr)Press $(echo.sgr bold)RETURN/ENTER$(echo.sgr) to continue or press any other key to abort."
-IFS='' read -sr -n 1 -p 'Ready?' input </dev/tty && echo
+IFS='' read -sr -n 1 -p 'Ready?' input && echo
 if [[ -n ${input:-} ]]; then
     echo.end_warn 'Aborting the uninstallation:P'
     exit

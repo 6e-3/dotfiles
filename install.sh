@@ -290,7 +290,7 @@ termination_with_check_ssh() {
 dotfiles_initialize() {
     echo.attention 'The DOTFILES_INIT option has been selected.'
     printf "Press $(echo.sgr bold)RETURN/ENTER$(echo.sgr) to continue or press any other key to abort.\n"
-    IFS='' read -sr -n 1 -p 'Ready?' input </dev/tty && echo
+    IFS='' read -sr -n 1 -p 'Ready?' input && echo
     if [[ -n $input ]]; then
         echo.end_warn 'Aborting the initialization:P'
         return
