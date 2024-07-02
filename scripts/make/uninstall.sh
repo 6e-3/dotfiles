@@ -77,7 +77,7 @@ uninstall() {
         echo.abort "$(loginfo) dotfiles directory not found: $DOTFILES_PATH"
     fi
 
-    cd "$HOME/.dotfiles"
+    cd "$DOTFILES_PATH"
     make unlink
     self-destruct
     echo.end_ok 'Dotfiles uninstallation complete!'
