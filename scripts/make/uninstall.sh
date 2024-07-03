@@ -49,7 +49,6 @@ self-destruct() {
 
     local input
     local result
-    echo.subsection "$DOTFILES_PATH"
     while true; do
         read -p 'Are you sure you want to delete this? (y/n) ' input
         if [[ $input =~ ^[Yy]|[Yy][Ee][Ss]$ ]]; then
@@ -87,7 +86,8 @@ uninstall() {
 DOTFILES_PATH="${HOME}/.dotfiles"
 
 hello
-echo.attention "$(echo.sgr)Press $(echo.sgr bold)RETURN/ENTER$(echo.sgr) to continue or press any other key to abort."
+echo.attention "Uninstalling $DOTFILES_PATH"
+printf "$(echo.sgr)Press $(echo.sgr bold)RETURN/ENTER$(echo.sgr) to continue or press any other key to abort.\n"
 IFS='' read -sr -n 1 -p 'Ready?' input && echo
 if [[ -n ${input:-} ]]; then
     echo.end_warn 'Aborting the uninstallation:P'
