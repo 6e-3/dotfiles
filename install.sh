@@ -281,15 +281,6 @@ dotfiles_download() {
 }
 
 dotfiles_initialize() {
-    echo.attention 'The DOTFILES_INIT option has been selected.'
-    printf "Press $(echo.sgr bold)RETURN/ENTER$(echo.sgr) to continue or press any other key to abort.\n"
-    IFS='' read -sr -n 1 -p 'Ready?' input && echo
-    if [[ -n $input ]]; then
-        echo.end_warn 'Aborting the initialization:P'
-        return
-    fi
-    echo
-
     echo.title 'Starting initialization'
     echo.end_ok 'Initialization is complete!'
 }
@@ -332,6 +323,14 @@ dotfiles_hello
 dotfiles_download
 cd "$DOTFILES_PATH"
 if [[ -n ${DOTFILES_INIT-} ]]; then
-    dotfiles_initialize
+    echo.attention 'The DOTFILES_INIT option has been selected.'
+    printf "Press $(echo.sgr bold)RETURN/ENTER$(echo.sgr) to continue or press any other key to abort.\n"
+    IFS='' read -sr -n 1 -p 'Ready?' input && echo
+    if [[ -n $input ]]; then
+        echo.end_warn 'Aborting the initialization:P'
+    else
+        echo
+        dotfiles_initialize
+    fi
 fi
 dotfiles_install
