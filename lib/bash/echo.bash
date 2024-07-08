@@ -156,11 +156,6 @@ echo.attention() {
 }
 echo.end_ok() { printf "✨$(echo.sgr bold "$_echo_pink")%s$(echo.sgr)\n\n" "$@"; }
 echo.end_warn() { printf "$(echo.sgr bold "$_echo_yellow")%s$(echo.sgr)\n\n" "$@"; }
-echo.subend_warn() {
-    local symbol='==>'
-    printf "$(echo.sgr bold "$_echo_yellow")$symbol $(echo.sgr default)%s$(echo.sgr)\n" "$*"
-    sleep "$_echo_sleep"
-}
 echo.abort() {
     printf "$(echo.sgr bold "$_echo_red")%s$(echo.sgr)\n" "$*"
     exit 1
