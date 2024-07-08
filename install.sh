@@ -152,14 +152,58 @@ hello() {
 }
 
 dotfiles_download() {
+    check_downloader() {
+        echo.section 'Checking downloader...'
+        if [[ -z ${DOTFILES_DOWNLOADER:-} ]]; then
+            if cmd_exists_check 'git'; then
+                DOTFILES_DOWNLOADER='git'
+            elif cmd_exists_check 'curl'; then
+                DOTFILES_DOWNLOADER='curl'
+            elif cmd_exists_check 'wget'; then
+                DOTFILES_DOWNLOADER='wget'
+            else
+                echo.error "$(loginfo) downloader not found: git, curl, wget"
+                return 1
+            fi
+            printf "Automatically detected downloader: $(echo.sgr bold "$_echo_accent")%s$(echo.sgr)\n" "$DOTFILES_DOWNLOADER"
+        else
+            printf "Specified downloader: $(echo.sgr bold "$_echo_accent")%s$(echo.sgr)\n" "$DOTFILES_DOWNLOADER"
+        fi
+    }
+    termination_with_check_ssh() {
+        local -r ssh_dir="${HOME}/.ssh"
+        echo.title 'Checking SSH settings'
+        if [[ -e $ssh_dir ]]; then
+            echo "'$ssh_dir' already exists."
+            if [[ -z $(find "$ssh_dir" -maxdepth 0 -perm 700 -type d) ]]; then
+                chmod 700 "$ssh_dir"
+                echo "Change '$ssh_dir' permission to 700."
+            else
+                echo "'$ssh_dir' permission OK."
+            fi
+        else
+            mkdir -m 700 "$ssh_dir"
+            echo "Created directory '$ssh_dir'."
+        fi
+        echo.next_step
+        echo 'Please create an SSH key pair, register the public key with GitHub.'
+        echo
+        echo '  ssh-keygen -t ed25519'
+        echo
+        echo 'And then re-run this script. Or set the DOTFILES_DOWNLOADER environment variable.'
+        echo
+        echo '  Specifiable commands:'
+        echo '    - curl'
+        echo '    - wget'
+        echo
+        exit 1
+    }
     dotfiles_download_failed() { echo.abort 'Failed to dotfiles download;('; }
     dotfiles_download_complete() {
         echo.end_ok "Dotfiles download complete! (${DOTFILES_PATH})"
         return
     }
     dotfiles_download_git() {
-        echo.section "Downloading with ${DOTFILES_DOWNLOADER}..."
-
         echo -n 'Testing SSH connection to git@github.com...'
 
         local result=$(ssh -o StrictHostKeyChecking=no -T git@github.com 2>&1) || true
@@ -180,8 +224,6 @@ dotfiles_download() {
     }
     dotfiles_download_curl_or_wget() {
         local result
-
-        echo.section "Downloading with ${DOTFILES_DOWNLOADER}..."
 
         if ! cmd_exists_check 'tar'; then
             echo.error "$(loginfo) command is required: tar"
@@ -215,27 +257,6 @@ dotfiles_download() {
             wget) wget -O - "$DOTFILES_TARBALL_URL" ;;
         esac | tar xvz -C "$DOTFILES_PATH" --strip-components=1 || dotfiles_download_failed
     }
-    subsection_download_with() {
-        printf "$(echo.sgr bold "$_echo_accent")==>$(echo.sgr bold default) Downloading with $(echo.sgr bold "$_echo_accent")%s$(echo.sgr)...\n" "$DOTFILES_DOWNLOADER"
-    }
-    check_downloader() {
-        echo.section 'Checking downloader...'
-        if [[ -z ${DOTFILES_DOWNLOADER:-} ]]; then
-            if cmd_exists_check 'git'; then
-                DOTFILES_DOWNLOADER='git'
-            elif cmd_exists_check 'curl'; then
-                DOTFILES_DOWNLOADER='curl'
-            elif cmd_exists_check 'wget'; then
-                DOTFILES_DOWNLOADER='wget'
-            else
-                echo.error "$(loginfo) downloader not found: git, curl, wget"
-                return 1
-            fi
-            printf "Automatically detected downloader: $(echo.sgr bold "$_echo_accent")%s$(echo.sgr)\n" "$DOTFILES_DOWNLOADER"
-        else
-            printf "Specified downloader: $(echo.sgr bold "$_echo_accent")%s$(echo.sgr)\n" "$DOTFILES_DOWNLOADER"
-        fi
-    }
 
     echo.title 'Starting dotfiles download'
 
@@ -245,6 +266,7 @@ dotfiles_download() {
     fi
 
     check_downloader
+    echo.section "Downloading with ${DOTFILES_DOWNLOADER}..."
     case "$DOTFILES_DOWNLOADER" in
         git)
            dotfiles_download_git ;;
@@ -256,35 +278,6 @@ dotfiles_download() {
            ;;
     esac
     dotfiles_download_complete
-}
-
-termination_with_check_ssh() {
-    local -r ssh_dir="${HOME}/.ssh"
-    echo.title 'Checking SSH settings'
-    if [[ -e $ssh_dir ]]; then
-        echo "'$ssh_dir' already exists."
-        if [[ -z $(find "$ssh_dir" -maxdepth 0 -perm 700 -type d) ]]; then
-            chmod 700 "$ssh_dir"
-            echo "Change '$ssh_dir' permission to 700."
-        else
-            echo "'$ssh_dir' permission OK."
-        fi
-    else
-        mkdir -m 700 "$ssh_dir"
-        echo "Created directory '$ssh_dir'."
-    fi
-    echo.next_step
-    echo 'Please create an SSH key pair, register the public key with GitHub.'
-    echo
-    echo '  ssh-keygen -t ed25519'
-    echo
-    echo 'And then re-run this script. Or set the DOTFILES_DOWNLOADER environment variable.'
-    echo
-    echo '  Specifiable commands:'
-    echo '    - curl'
-    echo '    - wget'
-    echo
-    exit 1
 }
 
 dotfiles_initialize() {
