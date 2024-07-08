@@ -318,10 +318,7 @@ dotfiles_install() {
     }
 
     echo.title 'Starting dotfiles installation'
-
-    cd "$DOTFILES_PATH"
     check_make
-
     make link
     make git-hooks
     cmd_exists_check -q 'git' && make git-setup
@@ -340,6 +337,7 @@ LIB_ECHO_URL="https://raw.githubusercontent.com/${GITHUB_USERNAME}/dotfiles/${DO
 
 hello
 dotfiles_download
+cd "$DOTFILES_PATH"
 if [[ -n ${DOTFILES_INIT-} ]]; then
     dotfiles_initialize
 fi
