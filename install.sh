@@ -59,7 +59,7 @@ cmd_exists_check() {
     fi
 }
 
-hello() {
+dotfiles_hello() {
     # variables check
     if [[ -z ${GITHUB_USERNAME:-} ]]; then
         abort "$(loginfo) 'GITHUB_USERNAME' is not set"
@@ -328,7 +328,7 @@ DOTFILES_TARBALL_URL="https://github.com/${GITHUB_USERNAME}/dotfiles/archive/${D
 LIB_ECHO_PATH="${DOTFILES_PATH}/lib/bash/echo.bash"
 LIB_ECHO_URL="https://raw.githubusercontent.com/${GITHUB_USERNAME}/dotfiles/${DOTFILES_BRANCH}/lib/bash/echo.bash"
 
-hello
+dotfiles_hello
 dotfiles_download
 cd "$DOTFILES_PATH"
 if [[ -n ${DOTFILES_INIT-} ]]; then
