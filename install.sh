@@ -302,12 +302,10 @@ dotfiles_initialize() {
 }
 
 dotfiles_install() {
-    dotfiles_install_failed() { echo.abort 'Dotfiles installation failed;('; }
     check_make() {
         local result
         if ! cmd_exists_check 'make'; then
-            echo.error "$(loginfo) command required: make"
-            dotfiles_install_failed
+            echo.abort 'make command required'
         fi
         echo -n 'Testing the make utility execution...'
         if result=$(make 2>&1); then
@@ -315,7 +313,7 @@ dotfiles_install() {
         else
             echo.failed
             echo.error "$(loginfo) $result"
-            dotfiles_install_failed
+            echo.abort 'make command test failed'
         fi
     }
 
