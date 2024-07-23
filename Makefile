@@ -43,7 +43,7 @@ git-hooks: ## Create the symbolic links of GitHooks to dotfiles repository
 brew-list: ## List all dependencies present in the dotfiles brewfile
 	@brew bundle list --all --file $(BREWFILE)
 
-brew-install: ## Install and upgrade all dependencies from the dotfiles brewfile
+brew-pkg-install: ## Install and upgrade all dependencies from the dotfiles brewfile
 	@brew bundle --file $(BREWFILE)
 
 brew-dump: ## Write all installed casks/formulae/images/taps into a brewfile in the dotfiles
