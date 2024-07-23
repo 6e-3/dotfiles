@@ -25,8 +25,8 @@ install: ## Install dotfiles
 uninstall: ## Uninstall dotfiles
 	@$(SCRIPT_DIR)/uninstall.sh
 
-init: ## Initialize the environment
-	@$(SCRIPT_DIR)/init.sh
+init: ## Install dotfiles with initialization
+	@DOTFILES_INIT=1 $(SCRIPT_DIR)/install.sh
 
 link: ## Create the symbolic links and directories for dotfiles
 	@$(SCRIPT_DIR)/link.sh $(CONFIG_DIR)
