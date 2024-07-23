@@ -59,6 +59,39 @@ cmd_exists_check() {
     fi
 }
 
+platform_detection() {
+    echo.title 'Detecting platform'
+    local os
+    os=$(uname -o)
+    case "$os" in
+        Darwin)    PLATFORM='mac' ;;
+        GNU/Linux) PLATFORM='linux' ;;
+        *)         echo.abort "$(loginfo) unknown os: $os" ;;
+    esac
+    printf "Platform detected: $(echo.sgr bold "$_echo_accent")$PLATFORM$(echo.sgr)\n"
+    echo
+}
+
+check_make() {
+    if "$MAKE_CHECKED"; then
+        return
+    else
+        MAKE_CHECKED=true
+    fi
+    local result
+    if ! cmd_exists_check 'make'; then
+        echo.abort 'make command required'
+    fi
+    echo -n 'Testing the make utility execution...'
+    if result=$(make 2>&1); then
+        echo.ok
+    else
+        echo.failed
+        echo.error "$(loginfo) $result"
+        echo.abort 'make command test failed'
+    fi
+}
+
 dotfiles_hello() {
     # variables check
     if [[ -z ${GITHUB_USERNAME:-} ]]; then
@@ -281,26 +314,63 @@ dotfiles_download() {
 }
 
 dotfiles_initialize() {
+    initialize_package_manager() {
+        install_homebrew() {
+            if ! cmd_exists_check 'brew'; then
+                echo.subsection 'Installing Homebrew...'
+                if ! /bin/bash -c \
+                     "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)";
+                then
+                    echo.abort 'Homebrew installation fialed;('
+                fi
+                echo.subsection 'Homebrew installation successful!'
+            fi
+        }
+        echo.section 'Initializing package manager...'
+        case "$PLATFORM" in
+            mac)
+               install_homebrew
+               ;;
+        esac
+        echo.section 'Package manager initialization successful!'
+    }
+    install_requirements() {
+        install_make() {
+            case "$PLATFORM" in
+                mac)
+                   brew install make
+                   ;;
+            esac
+        }
+        echo.section 'Checking requirements...'
+        cmd_exists_check -q 'make' || install_make
+        check_make
+    }
+    install_packages() {
+        install_brew_packages() {
+            if ! cmd_exists_check -q 'brew'; then
+                echo.abort "$(loginfo) command not found: brew"
+            else
+                make brew-pkg-install
+                echo.section 'Homebrew packages installation successful!'
+            fi
+        }
+        echo.section 'Installing packages...'
+        case "$PLATFORM" in
+            mac)
+               install_brew_packages
+               ;;
+        esac
+    }
+
     echo.title 'Starting initialization'
+    initialize_package_manager
+    install_requirements
+    install_packages
     echo.end_ok 'Initialization is complete!'
 }
 
 dotfiles_install() {
-    check_make() {
-        local result
-        if ! cmd_exists_check 'make'; then
-            echo.abort 'make command required'
-        fi
-        echo -n 'Testing the make utility execution...'
-        if result=$(make 2>&1); then
-            echo.ok
-        else
-            echo.failed
-            echo.error "$(loginfo) $result"
-            echo.abort 'make command test failed'
-        fi
-    }
-
     echo.title 'Starting dotfiles installation'
     check_make
     make link
@@ -318,8 +388,11 @@ DOTFILES_SSH_URL="git@github.com:${GITHUB_USERNAME}/dotfiles.git"
 DOTFILES_TARBALL_URL="https://github.com/${GITHUB_USERNAME}/dotfiles/archive/${DOTFILES_BRANCH}.tar.gz"
 LIB_ECHO_PATH="${DOTFILES_PATH}/lib/bash/echo.bash"
 LIB_ECHO_URL="https://raw.githubusercontent.com/${GITHUB_USERNAME}/dotfiles/${DOTFILES_BRANCH}/lib/bash/echo.bash"
+PLATFORM=
+MAKE_CHECKED=false
 
 dotfiles_hello
+platform_detection
 dotfiles_download
 cd "$DOTFILES_PATH"
 if [[ -n ${DOTFILES_INIT-} ]]; then
