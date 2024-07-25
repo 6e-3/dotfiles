@@ -11,22 +11,22 @@ GIT_HOOKS_DIR := $(DOTFILES_ROOT)/misc/git/hooks
 .DEFAULT_GOAL := help
 
 .PHONY: help
-.PHONY: install uninstall
-.PHONY: init link unlink
+.PHONY: init install uninstall
+.PHONY: link unlink
 .PHONY: git-config git-hooks
 .PHONY: brew-list brew-install brew-dump
 
 help: ## Show this help message [default]
 	@$(SCRIPT_DIR)/help.sh $(MAKEFILE)
 
+init: ## Install dotfiles with initialization
+	@DOTFILES_INIT=1 $(DOTFILES_ROOT)/install.sh
+
 install: ## Install dotfiles
 	@$(DOTFILES_ROOT)/install.sh
 
 uninstall: ## Uninstall dotfiles
 	@$(SCRIPT_DIR)/uninstall.sh
-
-init: ## Install dotfiles with initialization
-	@DOTFILES_INIT=1 $(SCRIPT_DIR)/install.sh
 
 link: ## Create the symbolic links and directories for dotfiles
 	@$(SCRIPT_DIR)/link.sh $(CONFIG_DIR)
