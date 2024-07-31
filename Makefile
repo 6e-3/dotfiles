@@ -44,7 +44,7 @@ brew-list: ## List all dependencies present in the dotfiles brewfile
 	@brew bundle list --all --file $(BREWFILE)
 
 brew-pkg-install: ## Install and upgrade all dependencies from the dotfiles brewfile
-	@brew bundle --file $(BREWFILE)
+	@brew bundle --no-lock --file $(BREWFILE)
 
 brew-dump: ## Write all installed casks/formulae/images/taps into a brewfile in the dotfiles
 	@brew bundle dump -f --file $(BREWFILE)
