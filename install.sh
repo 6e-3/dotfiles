@@ -364,6 +364,13 @@ dotfiles_initialize() {
     }
 
     echo.title 'Starting initialization'
+    case "$PLATFORM" in
+        mac) ;;
+        *)
+           echo.end_warn "'$PLATFORM' is not supportedX("
+           return
+           ;;
+    esac
     initialize_package_manager
     install_requirements
     install_packages
