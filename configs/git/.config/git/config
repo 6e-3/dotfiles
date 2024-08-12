@@ -1,0 +1,21 @@
+[user]
+	name = 6e-3
+	email = 173437276+6e-3@users.noreply.github.com
+
+[core]
+	autocrlf = input
+
+[merge]
+	ff = false
+
+[pull]
+	ff = only
+
+[push]
+	default = simple
+
+[fetch]
+	prune = true
+
+[include]
+	path = ~/.config/git/config.local
