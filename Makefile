@@ -1,3 +1,5 @@
+SHELL := /bin/bash
+
 MAKEFILE      := $(firstword $(MAKEFILE_LIST))
 DOTFILES_ROOT := $(realpath $(dir $(MAKEFILE)))
 CONFIG_DIR    := $(DOTFILES_ROOT)/configs
