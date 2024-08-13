@@ -14,7 +14,7 @@ GIT_HOOKS_DIR := $(DOTFILES_ROOT)/misc/git/hooks
 .PHONY: init install uninstall
 .PHONY: link unlink
 .PHONY: git-config git-hooks
-.PHONY: brew-list brew-install brew-dump
+.PHONY: brew-list brew-pkg-install brew-dump
 
 help: ## Show this help message [default]
 	@$(SCRIPT_DIR)/help.sh $(MAKEFILE)
