@@ -16,7 +16,7 @@ GIT_HOOKS_DIR := $(DOTFILES_ROOT)/misc/git/hooks
 .PHONY: init install uninstall
 .PHONY: link unlink
 .PHONY: git-config git-hooks
-.PHONY: brew-list brew-pkg-install brew-dump
+.PHONY: brew-list brew-diff brew-pkg-install brew-dump
 
 help: ## Show this help message [default]
 	@$(SCRIPT_DIR)/help.sh $(MAKEFILE)
@@ -44,6 +44,11 @@ git-hooks: ## Create the symbolic links of GitHooks to dotfiles repository
 
 brew-list: ## List all dependencies present in the dotfiles brewfile
 	@brew bundle list --all --file $(BREWFILE)
+
+brew-diff: ## List the differences between the installed packages and the dotfiles brewfile
+	@brew bundle dump -qf --global
+	@diff -u <(brew bundle list --all --file $(BREWFILE)) \
+                 <(brew bundle list --all --global) || :
 
 brew-pkg-install: ## Install and upgrade all dependencies from the dotfiles brewfile
 	@brew bundle --no-lock --file $(BREWFILE)
